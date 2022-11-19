@@ -63,7 +63,7 @@ public class AdminController {
                 .collect(Collectors.toList());
     }
 
-    @PutMapping(path = "/banned{banned}")
+    @PutMapping(path = "/banned/{banned}")
     public HttpStatus changingUserLock(@RequestBody String userEmail,
                                        @PathVariable @NotNull String banned) {
         log.info("Блокировка {}", userEmail);
