@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Transactional
@@ -81,6 +81,18 @@ public class AccountServiceImpl implements AccountService {
                 .stream()
                 .map(AccountMapper::mapAccountToAccountDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Account findByUserAndCurrency(User user, Currency currency) {
+        return accountRepository.findByUserAndCurrency(user, Currency.RUB)
+                .orElseThrow(() -> new NotFoundException("Счёт с валютой " + Currency.RUB + " Не найден"));
+    }
+
+    @Override
+    public Account findById(Long id) {
+        return accountRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Account with id: "+id +" not find."));
     }
 
 }

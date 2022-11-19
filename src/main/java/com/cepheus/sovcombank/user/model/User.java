@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Builder
 @Entity
@@ -15,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-@EqualsAndHashCode
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +41,19 @@ public class User {
 
     @OneToMany
     private List<Account> accounts;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(name, user.name) && Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) && Objects.equals(banned, user.banned) &&
+                Objects.equals(approved, user.approved) && Objects.equals(dateOfRegister, user.dateOfRegister);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email, password, banned, approved, dateOfRegister);
+    }
 }
