@@ -2,6 +2,7 @@ package com.cepheus.sovcombank.admin.service;
 
 import com.cepheus.sovcombank.admin.model.Admin;
 import com.cepheus.sovcombank.admin.repository.AdminRepository;
+import com.cepheus.sovcombank.exception.ConflictDataException;
 import com.cepheus.sovcombank.exception.ForbiddenException;
 import com.cepheus.sovcombank.exception.NotFoundException;
 import com.cepheus.sovcombank.exception.ValidationException;
@@ -25,6 +26,9 @@ public class AdminServiceImpl implements AdminService{
     @Override
     @Transactional
     public void add(Admin admin, String code) {
+        if(adminRepository.findByEmail(admin.getEmail()).isPresent()){
+            throw new ConflictDataException("An administrator with such an email: "+admin.getEmail()+" already exists");
+        }
         if(adminCodeService.find(code)) {
             adminRepository.save(admin);
             adminCodeService.delete(code);
@@ -65,8 +69,11 @@ public class AdminServiceImpl implements AdminService{
     }
     @Override
     @Transactional
-    public void changingUserLock(String userEmail,boolean banned){
+    public void changingUserLock(String userEmail,String banned){
         User user = userService.findByEmail(userEmail);
-        user.setBanned(banned);
+        if(!banned.equalsIgnoreCase("true") && !banned.equalsIgnoreCase("false")){
+            throw new ValidationException("Incorrect value of a boolean variable: "+banned);
+        }
+        user.setBanned(Boolean.parseBoolean(banned.toLowerCase()));
     }
 }

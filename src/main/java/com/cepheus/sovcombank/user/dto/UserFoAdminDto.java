@@ -1,9 +1,11 @@
 package com.cepheus.sovcombank.user.dto;
 
 import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 @Builder
+@Data
 public class UserFoAdminDto {
     private String name;
 

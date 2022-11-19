@@ -12,5 +12,5 @@ public interface AdminService {
     String getByEmail(String email);
     void confirmationUser(String userEmail);
     List<User> findUnconfirmedUsers(int from, int size);
-    void changingUserLock(String userEmail,boolean banned);
+    void changingUserLock(String userEmail,String banned);
 }
