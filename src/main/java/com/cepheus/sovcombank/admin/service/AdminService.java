@@ -13,4 +13,5 @@ public interface AdminService {
     void confirmationUser(String userEmail);
     List<User> findUnconfirmedUsers(int from, int size);
     void changingUserLock(String userEmail,String banned);
+    void deletePostById(Long postId);
 }

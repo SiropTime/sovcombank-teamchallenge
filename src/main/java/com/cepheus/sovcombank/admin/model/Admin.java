@@ -3,6 +3,7 @@ package com.cepheus.sovcombank.admin.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -24,4 +25,18 @@ public class Admin {
 
     @Column(name = "password")
     private String password;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Admin admin = (Admin) o;
+        return Objects.equals(name, admin.name) && Objects.equals(email, admin.email)
+                && Objects.equals(password, admin.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email, password);
+    }
 }

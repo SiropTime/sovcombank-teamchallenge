@@ -7,14 +7,12 @@ import com.cepheus.sovcombank.admin.service.AdminService;
 import com.cepheus.sovcombank.exception.ValidationException;
 import com.cepheus.sovcombank.user.dto.UserFoAdminDto;
 import com.cepheus.sovcombank.user.mapper.UserMapper;
-import com.cepheus.sovcombank.user.model.User;
 import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
