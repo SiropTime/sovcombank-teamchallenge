@@ -3,11 +3,9 @@ package com.cepheus.sovcombank.deal.service;
 import com.cepheus.sovcombank.account.model.Account;
 import com.cepheus.sovcombank.account.repository.AccountRepository;
 import com.cepheus.sovcombank.account.service.AccountService;
-import com.cepheus.sovcombank.deal.dto.BalanceChangerDto;
-import com.cepheus.sovcombank.deal.dto.DealMapper;
-import com.cepheus.sovcombank.deal.dto.DealOutputDto;
-import com.cepheus.sovcombank.deal.dto.ForDealDto;
+import com.cepheus.sovcombank.deal.dto.*;
 import com.cepheus.sovcombank.deal.model.Deal;
+import com.cepheus.sovcombank.deal.model.Operation;
 import com.cepheus.sovcombank.deal.repository.DealRepository;
 import com.cepheus.sovcombank.exception.BalanceException;
 import com.cepheus.sovcombank.exception.NotFoundException;
@@ -42,26 +40,30 @@ public class DealServiceImpl implements DealService {
         User user = userService.findByEmail(email);
         Account account = accountService.findById(forDealDto.getAccountId());
         Account accountRu = accountService.findByUserAndCurrency(user, Currency.RUB);
-        if (!user.getId().equals(account.getId())) {
+        if (!user.getId().equals(account.getUser().getId())) {
             throw new UserIsNotOwnerException("User is not owner");
         }
-        if (forDealDto.getSum() > 0) {
+        Operation operation;
+        if (forDealDto.getSum() > 0) { // + к ру кошельку
+            if (account.getBalance() - (forDealDto.getSum() * forDealDto.getCurrencyRatio()) < 0) {
+                throw new BalanceException("You can't take off more than you have");
+            }
+            accountRu.setBalance(accountRu.getBalance() + forDealDto.getSum());
+            account.setBalance(account.getBalance() - (forDealDto.getSum() * forDealDto.getCurrencyRatio()));
+            operation = Operation.SaleCurrency;
+        } else { // Операция продажи с ру счёта
             if (accountRu.getBalance() - forDealDto.getSum() < 0) {
                 throw new BalanceException("You can't take off more than you have");
             }
             accountRu.setBalance(accountRu.getBalance() - forDealDto.getSum());
-            account.setBalance(account.getBalance() + (account.getBalance() * forDealDto.getCurrencyRatio()));
-        } else {
-            if (account.getBalance() - (forDealDto.getSum() / forDealDto.getCurrencyRatio()) > 0) {
-                throw new BalanceException("You can't take off more than you have");
-            }
-            accountRu.setBalance(account.getBalance() - (forDealDto.getSum() / forDealDto.getCurrencyRatio()));
-            account.setBalance(accountRu.getBalance() + (account.getBalance()));
+            account.setBalance(account.getBalance() + (forDealDto.getSum() * forDealDto.getCurrencyRatio()));
+            operation = Operation.PurchaseCurrency;
         }
         Deal deal = Deal.builder()
                 .timeStamp(LocalDateTime.now())
                 .summary(-1 * forDealDto.getSum())
-                .account(accountRu)
+                .account(account)
+                .operation(operation)
                 .build();
         dealRepository.save(deal);
         accountRepository.save(account);
@@ -76,10 +78,12 @@ public class DealServiceImpl implements DealService {
     public Deal changeBalance(BalanceChangerDto balanceChangerDto, String email) {
         User user = userService.findByEmail(email);
         Account account = accountService.findByUserAndCurrency(user, Currency.RUB);
+        Operation operation = balanceChangerDto.getSum() < 0? Operation.WithdrawalBalance: Operation.ReplenishmentBalance;
         account.setBalance(account.getBalance() + balanceChangerDto.getSum());
         Deal deal = Deal.builder()
                 .summary(balanceChangerDto.getSum())
                 .timeStamp(LocalDateTime.now())
+                .operation(operation)
                 .build();
         accountRepository.save(account);
         log.info("На баланс {} успешно пришло {}", user.getEmail(), balanceChangerDto.getSum());

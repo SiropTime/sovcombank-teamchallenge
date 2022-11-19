@@ -68,7 +68,7 @@ public class ErrorHandler {
     public ResponseEntity<ErrorMessage> handlerBalanceOfUser(final BalanceException e) {
         log.error("Возникла ошибка баланса пользователя: " + e.getMessage());
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.PAYMENT_REQUIRED)
                 .body(new ErrorMessage(e.getMessage()));
     }
 
