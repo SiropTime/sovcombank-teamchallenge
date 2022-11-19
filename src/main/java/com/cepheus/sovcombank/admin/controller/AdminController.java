@@ -3,11 +3,11 @@ package com.cepheus.sovcombank.admin.controller;
 import com.cepheus.sovcombank.admin.dto.AdminDto;
 import com.cepheus.sovcombank.admin.dto.AdminDtoMapper;
 import com.cepheus.sovcombank.admin.dto.AdminRequest;
+import com.cepheus.sovcombank.admin.dto.BannedDto;
 import com.cepheus.sovcombank.admin.service.AdminService;
 import com.cepheus.sovcombank.exception.ValidationException;
 import com.cepheus.sovcombank.user.dto.UserFoAdminDto;
 import com.cepheus.sovcombank.user.mapper.UserMapper;
-import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -43,11 +43,10 @@ public class AdminController {
         return adminService.getByEmail(email);
     }
 
-    @PutMapping(path = "/confirmation/")
-    public HttpStatus confirmationStatus(@RequestBody String userEmail,
-                                         @RequestParam Boolean status) {
+    @PutMapping(path = "/confirmation")
+    public HttpStatus confirmationStatus(@RequestBody String userEmail) {
         log.info("Потверждение пользователя {}", userEmail);
-        adminService.confirmationUser(userEmail,status);
+        adminService.confirmationUser(userEmail);
         return HttpStatus.OK;
     }
 
@@ -63,11 +62,10 @@ public class AdminController {
                 .collect(Collectors.toList());
     }
 
-    @PutMapping(path = "/banned/{banned}")
-    public HttpStatus changingUserLock(@RequestBody String userEmail,
-                                       @PathVariable @NotNull String banned) {
-        log.info("Блокировка {}", userEmail);
-        adminService.changingUserLock(userEmail, banned);
+    @PutMapping(path = "/banned")
+    public HttpStatus changingUserLock(@RequestBody BannedDto banned) {
+        log.info("Блокировка {}", banned);
+        adminService.changingUserLock(banned.getUserEmail(), banned.getBanned());
         return HttpStatus.OK;
     }
     @PutMapping(path = "/post/delete")

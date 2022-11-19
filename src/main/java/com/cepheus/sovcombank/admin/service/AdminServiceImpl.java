@@ -57,17 +57,13 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     @Transactional
-    public void confirmationUser(String userEmail,Boolean status) {
+    public void confirmationUser(String userEmail) {
         User user=userService.findByEmail(userEmail);
         if(user.getApproved()){
             throw new
                     ValidationException("The user with the mail " + userEmail + " has already been confirmed");
         }
-        if(status) {
-            user.setApproved(true);
-        }else {
-            user.setBanned(true);
-        }
+        user.setApproved(true);
     }
     @Override
     public List<User> findUnconfirmedUsers(int from,int size){
@@ -75,12 +71,9 @@ public class AdminServiceImpl implements AdminService{
     }
     @Override
     @Transactional
-    public void changingUserLock(String userEmail,String banned){
+    public void changingUserLock(String userEmail,Boolean banned){
         User user = userService.findByEmail(userEmail);
-        if(!banned.equalsIgnoreCase("true") && !banned.equalsIgnoreCase("false")){
-            throw new ValidationException("Incorrect value of a boolean variable: "+banned);
-        }
-        user.setBanned(Boolean.parseBoolean(banned.toLowerCase()));
+        user.setBanned(banned);
     }
 
     @Override
