@@ -13,8 +13,8 @@ public class AccountController {
 
     @PostMapping("{currency}")
     public HttpStatus create(@PathVariable String currency,
-                             @RequestParam Long userId){
-        accountService.createNewAccount(currency, userId);
+                             @RequestParam String email){
+        accountService.createNewAccount(currency, email);
         return HttpStatus.OK;
     }
 }

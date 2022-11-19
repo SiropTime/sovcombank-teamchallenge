@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/admins")
 public class AdminController {
     private final AdminService adminService;
-    @PostMapping(path = "/register")
-    public HttpStatus add(AdminDto adminDto){
+    @PostMapping(path = "/registration")
+    public HttpStatus add(@RequestBody AdminDto adminDto){
         adminService.add(AdminDtoMapper.dtoToAdmin(adminDto),adminDto.getCode());
         return HttpStatus.OK;
     }
     @GetMapping(path = "/login")
-    public HttpStatus login(AdminRequest adminRequest){
+    public HttpStatus login(@RequestBody AdminRequest adminRequest){
         adminService.login(adminRequest.getEmail(),adminRequest.getPassword());
         return HttpStatus.OK;
     }

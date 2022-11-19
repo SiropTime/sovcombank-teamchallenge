@@ -1,5 +1,6 @@
 package com.cepheus.sovcombank.admin.service;
 
+import com.cepheus.sovcombank.admin.model.AdminCodes;
 import com.cepheus.sovcombank.admin.repository.AdminCodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,5 +16,6 @@ public class AdminCodeService {
 
     public void delete(String code) {
         adminCodeRepository.contains(code);
+        adminCodeRepository.deleteByCode(code);
     }
 }

@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public User reqUser(User user){
         user.setApproved(false);
+        user.setBanned(false);
         user.setDateOfRegister(LocalDateTime.now());
         Account account = generateRuAccount(user);
         accountRepository.save(account);
@@ -37,8 +38,8 @@ public class UserServiceImpl implements UserService{
                 new NotFoundException("The user with the mail: " + email + " was not found."));
     }
     public List<User> findAllUnconfirmed(int from,int size){
-        return userRepository.findAllUnconfirmed(PageRequest
-                .of(from/size, size, Sort.by("date_of_register")));
+        return userRepository.findAllByApprovedIsFalse(PageRequest
+                .of(from/size, size));
     }
 
     private Account generateRuAccount(User user){

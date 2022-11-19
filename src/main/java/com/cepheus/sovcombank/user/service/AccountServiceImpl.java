@@ -20,8 +20,8 @@ public class AccountServiceImpl implements AccountService {
     private final UserRepository userRepository;
 
     @Override
-    public Account createNewAccount(String currency, Long userId){
-        User user = userRepository.findByEmail();
+    public Account createNewAccount(String currency, String email){
+        User user = userRepository.findByEmail(email);
         List<Account> accounts = accountRepository.findAllByUser(user);
         Currency cur = Currency.valueOf(currency);
         for(Account element: accounts){
