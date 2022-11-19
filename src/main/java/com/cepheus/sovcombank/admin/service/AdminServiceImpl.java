@@ -6,6 +6,7 @@ import com.cepheus.sovcombank.exception.ConflictDataException;
 import com.cepheus.sovcombank.exception.ForbiddenException;
 import com.cepheus.sovcombank.exception.NotFoundException;
 import com.cepheus.sovcombank.exception.ValidationException;
+import com.cepheus.sovcombank.post.service.PostService;
 import com.cepheus.sovcombank.user.model.User;
 import com.cepheus.sovcombank.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class AdminServiceImpl implements AdminService{
     private final AdminRepository adminRepository;
     private final AdminCodeService adminCodeService;
     private final UserService userService;
+    private final PostService postService;
 
     @Override
     @Transactional
@@ -75,5 +77,10 @@ public class AdminServiceImpl implements AdminService{
             throw new ValidationException("Incorrect value of a boolean variable: "+banned);
         }
         user.setBanned(Boolean.parseBoolean(banned.toLowerCase()));
+    }
+
+    @Override
+    public void deletePostById(Long postId) {
+        postService.deleteById(postId);
     }
 }
