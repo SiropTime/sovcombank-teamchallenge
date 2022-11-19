@@ -13,7 +13,9 @@ import com.cepheus.sovcombank.account.model.Currency;
 import com.cepheus.sovcombank.user.model.User;
 import com.cepheus.sovcombank.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -21,19 +23,22 @@ import static java.lang.Math.abs;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
+@Slf4j
 public class DealServiceImpl implements DealService{
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final DealRepository dealRepository;
 
+    @Transactional
     @Override
-    public Deal make(ForDealDto forDealDto, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not find"));
+    public Deal make(ForDealDto forDealDto, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User not find"));
         Account account = accountRepository.findById(forDealDto.getAccountId())
                 .orElseThrow(() -> new NotFoundException("Account for buy not find"));
         Account accountRu = accountRepository.findByUserAndCurrency(user, Currency.RUB)
                 .orElseThrow(() -> new NotFoundException("Счёт с валютой " + Currency.RUB + " Не найден"));
-        if(!userId.equals(account.getId())){
+        if(!user.getId().equals(account.getId())){
             throw new UserIsNotOwnerException("User is not owner");
         }
         if(forDealDto.getSum() > 0) {
@@ -57,12 +62,16 @@ public class DealServiceImpl implements DealService{
         dealRepository.save(deal);
         accountRepository.save(account);
         accountRepository.save(accountRu);
+        log.info("Покупка валюты {}, пользователем {}, на сумму {}. Прошла успешно",
+                account.getCurrency(), user.getEmail(), forDealDto.getSum());
         return deal;
     }
 
+    @Transactional
     @Override
-    public Deal changeBalance(BalanceChangerDto balanceChangerDto, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+    public Deal changeBalance(BalanceChangerDto balanceChangerDto, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Пользователь " + email + " не найден"));
         Account account = accountRepository.findByUserAndCurrency(user,Currency.RUB)
                 .orElseThrow(() -> new NotFoundException("Счёт с валютой " + Currency.RUB + " Не найден"));
         account.setBalance(account.getBalance() + balanceChangerDto.getSum());
@@ -71,6 +80,7 @@ public class DealServiceImpl implements DealService{
                 .timeStamp(LocalDateTime.now())
                 .build();
         accountRepository.save(account);
+        log.info("На баланс {} успешно пришло {}", user.getEmail(), balanceChangerDto.getSum());
         return dealRepository.save(deal);
     }
 }

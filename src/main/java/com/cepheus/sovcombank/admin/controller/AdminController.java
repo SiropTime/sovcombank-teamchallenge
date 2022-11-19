@@ -9,6 +9,7 @@ import com.cepheus.sovcombank.user.dto.UserFoAdminDto;
 import com.cepheus.sovcombank.user.mapper.UserMapper;
 import com.cepheus.sovcombank.user.model.User;
 import com.sun.istack.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,28 +21,33 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/admins")
+@Slf4j
 public class AdminController {
     private final AdminService adminService;
 
     @PostMapping(path = "/registration")
     public HttpStatus add(@RequestBody AdminDto adminDto) {
+        log.info("Регистрация админа {}", adminDto.getEmail());
         adminService.add(AdminDtoMapper.dtoToAdmin(adminDto), adminDto.getCode());
         return HttpStatus.OK;
     }
 
     @PostMapping(path = "/login")
     public HttpStatus login(@RequestBody AdminRequest adminRequest) {
+        log.info("Попытка входа {} в систему", adminRequest.getEmail());
         adminService.login(adminRequest.getEmail(), adminRequest.getPassword());
         return HttpStatus.OK;
     }
 
-    @GetMapping(path = "/{email}")
-    public String getByEmail(@PathVariable String email) {
+    @GetMapping(path = "/users/")
+    public String getByEmail(@RequestBody String email) {
+        log.info("Получение пользователя {}", email);
         return adminService.getByEmail(email);
     }
 
-    @PutMapping(path = "/confirmation/{userEmail}")
-    public HttpStatus confirmationStatus(@PathVariable String userEmail) {
+    @PutMapping(path = "/confirmation/")
+    public HttpStatus confirmationStatus(@RequestBody String userEmail) {
+        log.info("Потверждение пользователя {}", userEmail);
         adminService.confirmationUser(userEmail);
         return HttpStatus.OK;
     }
@@ -53,13 +59,15 @@ public class AdminController {
             throw new ValidationException("Incorrect request parameters were passed: start from the page " + from +
                     " ,number of elements on the page " + size);
         }
+        log.info("Получение списка пользователей");
         return adminService.findUnconfirmedUsers(from, size).stream().map(UserMapper::mapUserFoAdmin)
                 .collect(Collectors.toList());
     }
 
-    @PutMapping(path = "/banned/{userEmail}/{banned}")
-    public HttpStatus changingUserLock(@PathVariable String userEmail,
+    @PutMapping(path = "/banned{banned}")
+    public HttpStatus changingUserLock(@RequestBody String userEmail,
                                        @PathVariable @NotNull String banned) {
+        log.info("Блокировка {}", userEmail);
         adminService.changingUserLock(userEmail, banned);
         return HttpStatus.OK;
     }

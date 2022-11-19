@@ -5,7 +5,7 @@ import com.cepheus.sovcombank.deal.dto.ForDealDto;
 import com.cepheus.sovcombank.deal.model.Deal;
 
 public interface DealService {
-    Deal make(ForDealDto forDealDto, Long userId);
+    Deal make(ForDealDto forDealDto, String email);
 
-    Deal changeBalance(BalanceChangerDto balanceChangerDto, Long userId);
+    Deal changeBalance(BalanceChangerDto balanceChangerDto, String email);
 }

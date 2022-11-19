@@ -23,7 +23,7 @@ public class UserController {
         return HttpStatus.OK;
     }
 
-    @PostMapping("/log")
+    @PostMapping("/login")
     public HttpStatus log(@RequestBody UserLogDto user) {
         log.info("Пользователь с почтой {}, пытается зайти", user.getEmail());
         userServiceImpl.log(UserMapper.mapUserLogDtoToUser(user));
