@@ -7,6 +7,7 @@ import com.cepheus.sovcombank.admin.service.AdminService;
 import com.cepheus.sovcombank.exception.ValidationException;
 import com.cepheus.sovcombank.user.dto.UserFoAdminDto;
 import com.cepheus.sovcombank.user.mapper.UserMapper;
+import com.sun.istack.NotNull;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,5 +49,11 @@ public class AdminController {
         }
         return adminService.findUnconfirmedUsers(from,size).stream().map(UserMapper::mapUserFoAdmin)
                 .collect(Collectors.toList());
+    }
+    @PutMapping(path = "/banned/{userEmail}/?{banned}")
+    public HttpStatus changingUserLock(@PathVariable String userEmail,
+                                       @PathVariable @NotNull Boolean banned){
+        adminService.changingUserLock(userEmail,banned);
+        return HttpStatus.OK;
     }
 }

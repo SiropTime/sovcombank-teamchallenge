@@ -63,4 +63,10 @@ public class AdminServiceImpl implements AdminService{
     public List<User> findUnconfirmedUsers(int from,int size){
         return userService.findAllUnconfirmed(from,size);
     }
+    @Override
+    @Transactional
+    public void changingUserLock(String userEmail,boolean banned){
+        User user = userService.findByEmail(userEmail);
+        user.setBanned(banned);
+    }
 }
