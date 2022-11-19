@@ -41,7 +41,7 @@ public class AccountController {
         return HttpStatus.OK;
     }
 
-    @GetMapping("/accounts{email}")
+    @GetMapping("{email}")
     public List<AccountDto> getAccountsForUser(@PathVariable String email){
         return accountService.getAccountForUser(email);
     }

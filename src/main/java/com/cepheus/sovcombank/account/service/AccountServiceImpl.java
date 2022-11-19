@@ -76,7 +76,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountDto> getAccountForUser(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Пользователь с почтой" + email + " не найден"));
+                .orElseThrow(() -> new NotFoundException("Пользователь с почтой " + email + " не найден"));
         return accountRepository.findAllByUser(user)
                 .stream()
                 .map(AccountMapper::mapAccountToAccountDto)
