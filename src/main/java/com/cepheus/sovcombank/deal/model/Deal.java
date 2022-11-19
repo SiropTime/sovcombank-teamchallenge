@@ -1,13 +1,21 @@
 package com.cepheus.sovcombank.deal.model;
 
-import com.cepheus.sovcombank.user.model.Account;
+import com.cepheus.sovcombank.account.model.Account;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Builder
 @Entity
-@Table(name = "deals", schema = "private")
-public class deal {
+@Table(name = "deals", schema = "public")
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+public class Deal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

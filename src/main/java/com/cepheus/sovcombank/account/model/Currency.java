@@ -1,4 +1,4 @@
-package com.cepheus.sovcombank.user.model;
+package com.cepheus.sovcombank.account.model;
 
 public enum Currency {
     RUB,

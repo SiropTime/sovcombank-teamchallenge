@@ -1,6 +1,7 @@
 package com.cepheus.sovcombank.user.model;
 
 
+import com.cepheus.sovcombank.account.model.Account;
 import lombok.*;
 
 import javax.persistence.*;

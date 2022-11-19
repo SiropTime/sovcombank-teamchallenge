@@ -1,5 +1,6 @@
-package com.cepheus.sovcombank.user.model;
+package com.cepheus.sovcombank.account.model;
 
+import com.cepheus.sovcombank.user.model.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class Account {
     private Long id;
 
     @Column(name = "currency_key")
-    private Currency currency_key;
+    private Currency currency;
 
     @ManyToOne
     private User user;

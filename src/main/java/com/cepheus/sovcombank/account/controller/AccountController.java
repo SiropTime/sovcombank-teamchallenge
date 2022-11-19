@@ -1,14 +1,13 @@
-package com.cepheus.sovcombank.user.controller;
+package com.cepheus.sovcombank.account.controller;
 
-import com.cepheus.sovcombank.user.dto.LogicDto;
-import com.cepheus.sovcombank.user.service.AccountService;
+import com.cepheus.sovcombank.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/accounts")
 @RequiredArgsConstructor
+@RequestMapping("/accounts")
 public class AccountController {
     private final AccountService accountService;
 
@@ -16,12 +15,6 @@ public class AccountController {
     public HttpStatus create(@RequestBody String email,
                              @PathVariable String currency){
         accountService.createNewAccount(currency, email);
-        return HttpStatus.OK;
-    }
-
-    @PutMapping("/transaction")
-    public HttpStatus buy(@RequestBody LogicDto logicDto, @RequestParam Long userId){
-        accountService.transaction(logicDto,userId);
         return HttpStatus.OK;
     }
 

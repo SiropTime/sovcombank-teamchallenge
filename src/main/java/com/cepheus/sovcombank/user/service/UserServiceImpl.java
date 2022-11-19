@@ -2,17 +2,16 @@ package com.cepheus.sovcombank.user.service;
 
 import com.cepheus.sovcombank.exception.LogException;
 import com.cepheus.sovcombank.exception.NotFoundException;
-import com.cepheus.sovcombank.user.model.Account;
-import com.cepheus.sovcombank.user.model.Currency;
+import com.cepheus.sovcombank.account.model.Account;
+import com.cepheus.sovcombank.account.model.Currency;
 import com.cepheus.sovcombank.user.model.User;
-import com.cepheus.sovcombank.user.repository.AccountRepository;
+import com.cepheus.sovcombank.account.repository.AccountRepository;
 import com.cepheus.sovcombank.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.security.auth.login.LoginException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -55,7 +54,7 @@ public class UserServiceImpl implements UserService{
 
     private Account generateRuAccount(User user){
         return Account.builder()
-                .currency_key(Currency.RUB)
+                .currency(Currency.RUB)
                 .user(user)
                 .balance(0F)
                 .build();

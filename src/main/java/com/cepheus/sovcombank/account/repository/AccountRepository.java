@@ -1,7 +1,7 @@
-package com.cepheus.sovcombank.user.repository;
+package com.cepheus.sovcombank.account.repository;
 
-import com.cepheus.sovcombank.user.model.Account;
-import com.cepheus.sovcombank.user.model.Currency;
+import com.cepheus.sovcombank.account.model.Currency;
+import com.cepheus.sovcombank.account.model.Account;
 import com.cepheus.sovcombank.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,9 +1,9 @@
-package com.cepheus.sovcombank.user.dto;
+package com.cepheus.sovcombank.deal.dto;
 
 import lombok.Getter;
 
 @Getter
-public class LogicDto {
+public class ForDealDto {
     private Long accountId;
     private Float sum;
     private Float currencyRatio;

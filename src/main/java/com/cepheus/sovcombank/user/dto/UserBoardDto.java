@@ -1,6 +1,6 @@
 package com.cepheus.sovcombank.user.dto;
 
-import com.cepheus.sovcombank.user.model.Account;
+import com.cepheus.sovcombank.account.model.Account;
 
 import java.util.List;
 
