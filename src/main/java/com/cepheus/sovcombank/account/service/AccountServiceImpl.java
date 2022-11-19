@@ -68,7 +68,7 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new NotFoundException("Пользователь с почтой" + email + " не найден"));
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new NotFoundException("Счёт с айди " + accountId + " не найден"));
-        if (!user.getAccounts().contains(account)) {
+        if (!user.getId().equals(account.getUser().getId())) {
             throw new ForbiddenException("Счёт с айди " + accountId + " не принадлижит пользователю");
         }
     }
