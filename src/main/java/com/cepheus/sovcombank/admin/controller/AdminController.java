@@ -44,9 +44,10 @@ public class AdminController {
     }
 
     @PutMapping(path = "/confirmation/")
-    public HttpStatus confirmationStatus(@RequestBody String userEmail) {
+    public HttpStatus confirmationStatus(@RequestBody String userEmail,
+                                         @RequestParam Boolean status) {
         log.info("Потверждение пользователя {}", userEmail);
-        adminService.confirmationUser(userEmail);
+        adminService.confirmationUser(userEmail,status);
         return HttpStatus.OK;
     }
 
@@ -67,6 +68,11 @@ public class AdminController {
                                        @PathVariable @NotNull String banned) {
         log.info("Блокировка {}", userEmail);
         adminService.changingUserLock(userEmail, banned);
+        return HttpStatus.OK;
+    }
+    @PutMapping(path = "/post/delete")
+    public HttpStatus deletePostById(@RequestParam Long postId){
+        adminService.deletePostById(postId);
         return HttpStatus.OK;
     }
 }

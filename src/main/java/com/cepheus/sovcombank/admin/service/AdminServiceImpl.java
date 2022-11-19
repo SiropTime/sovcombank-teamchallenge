@@ -57,13 +57,17 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     @Transactional
-    public void confirmationUser(String userEmail) {
+    public void confirmationUser(String userEmail,Boolean status) {
         User user=userService.findByEmail(userEmail);
         if(user.getApproved()){
             throw new
                     ValidationException("The user with the mail " + userEmail + " has already been confirmed");
         }
-        user.setApproved(true);
+        if(status) {
+            user.setApproved(true);
+        }else {
+            user.setBanned(true);
+        }
     }
     @Override
     public List<User> findUnconfirmedUsers(int from,int size){

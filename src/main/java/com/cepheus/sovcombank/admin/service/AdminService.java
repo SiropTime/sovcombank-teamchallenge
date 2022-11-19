@@ -10,7 +10,7 @@ public interface AdminService {
     void add(Admin admin, String code);
     void login(String email,String password);
     String getByEmail(String email);
-    void confirmationUser(String userEmail);
+    void confirmationUser(String userEmail,Boolean status);
     List<User> findUnconfirmedUsers(int from, int size);
     void changingUserLock(String userEmail,String banned);
     void deletePostById(Long postId);
