@@ -67,11 +67,12 @@
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline text-white">На главную</span>
                         </a>
                     </li>
-<!--                    <li class="nav-item">-->
-<!--                        <a href="#" class="nav-link align-middle px-0">-->
-<!--                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline text-white">Ввод\Вывод средств</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <button data-bs-toggle="modal" data-bs-target="#inoroutrub" class="btn btn-warning ms-1 d-none d-sm-inline text-white">Ввод\Вывод средств</button>
+
+                        </a>
+                    </li>
 <!--                    <li class="nav-item">-->
 <!--                        <a href="#" class="nav-link align-middle px-0">-->
 <!--                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline text-white">Настройки</span>-->
@@ -321,11 +322,51 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-        <button type="submit" form="buy-form" class="btn btn-primary">Купить!</button>
+        <button type="submit" form="buy-form" class="btn btn-primary">Вперёд!</button>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
+
+
+<div class="modal fade" id="inoroutrub" tabindex="-1" aria-labelledby="inoroutrubModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="inoroutrubModalLabel">Покупка валюты</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+
+            <form action="" id="input-form" method="post">
+
+                <div id="rubbil" class="mb-4 text-b">Валютный счёт в рублях</div>
+
+
+                <select id="operationrub" class="valuechange form-select mb-4 ">
+                    <option selected>Выберите операцию</option>
+                     <option value="Пополнение">Пополнение</option>
+                     <option value="Вывод">Вывод </option>
+                </select>
+
+                <input type="number" required class="valuechange form-control mb-4" id="inputCount2" placeholder="Количество">
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" form="input-form" class="btn btn-primary">Вперёд!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 
 

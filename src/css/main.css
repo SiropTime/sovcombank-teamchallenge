@@ -97,3 +97,13 @@ a:hover, a:focus {
   padding:8px;
   color:#ccc;
 }
+
+.postimg{
+    max-width: fit-content;
+    min-height: 40vh;
+}
+
+.imgcover{
+    background-position: center center;
+    background-size: cover;
+}
