@@ -15,7 +15,7 @@ public class ErrorHandler {
     public ResponseEntity<ErrorMessage> handlerBadValidation(final ValidationException e) {
         log.error("Возникла ошибка валидации. Ошибка:" + e.getMessage());
         return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
+                .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorMessage(e.getMessage()));
     }
 

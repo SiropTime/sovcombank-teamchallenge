@@ -4,9 +4,15 @@ import com.cepheus.sovcombank.admin.dto.AdminDto;
 import com.cepheus.sovcombank.admin.dto.AdminDtoMapper;
 import com.cepheus.sovcombank.admin.dto.AdminRequest;
 import com.cepheus.sovcombank.admin.service.AdminService;
+import com.cepheus.sovcombank.exception.ValidationException;
+import com.cepheus.sovcombank.user.dto.UserFoAdminDto;
+import com.cepheus.sovcombank.user.mapper.UserMapper;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,9 +34,19 @@ public class AdminController {
         return adminService.getByEmail(email);
     }
 
-    @PutMapping()
-    public HttpStatus confirmationStatus(){
-
+    @PutMapping(path = "/confirmation/{userEmail}")
+    public HttpStatus confirmationStatus(@PathVariable String userEmail){
+        adminService.confirmationUser(userEmail);
         return HttpStatus.OK;
+    }
+    @GetMapping(path = "/confirmation")
+    public List<UserFoAdminDto> findAllConfirmation(@RequestParam(defaultValue = "1") Integer from,
+                                                    @RequestParam(defaultValue = "10") Integer size){
+        if (from < 0 || size == 0) {
+            throw new ValidationException("Incorrect request parameters were passed: start from the page " + from +
+                    " ,number of elements on the page " + size);
+        }
+        return adminService.findUnconfirmedUsers(from,size).stream().map(UserMapper::mapUserFoAdmin)
+                .collect(Collectors.toList());
     }
 }
