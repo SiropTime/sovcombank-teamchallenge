@@ -1,5 +1,29 @@
 package com.cepheus.sovcombank.user.model;
 
 public enum Currency {
-    RUB
+    RUB,
+    USD,
+    EUR,
+    JPY,
+    GBP,
+    AUD,
+    CAD,
+    CHF,
+    CNY,
+    SEK,
+    MXN,
+    NZD,
+    SGD,
+    HKD,
+    NOK,
+    KRW,
+    TRY,
+    INR,
+    BRL,
+    ZAR,
+    DKK,
+    PLN,
+    TWD,
+    THB,
+    MYR
 }

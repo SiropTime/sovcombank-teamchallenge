@@ -2,12 +2,14 @@ package com.cepheus.sovcombank.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Builder
+@Getter
 @Table(name = "accounts", schema = "public")
 @NoArgsConstructor
 @AllArgsConstructor

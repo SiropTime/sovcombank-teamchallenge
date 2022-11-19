@@ -2,10 +2,13 @@ package com.cepheus.sovcombank.user.controller;
 
 import com.cepheus.sovcombank.user.dto.UserInputDto;
 import com.cepheus.sovcombank.user.mapper.UserMapper;
+import com.cepheus.sovcombank.user.service.AccountService;
 import com.cepheus.sovcombank.user.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,4 +21,5 @@ public class UserController {
         userServiceImpl.reqUser(UserMapper.mapUserInputDtoToUser(userInputDto));
         return HttpStatus.OK;
     }
+
 }

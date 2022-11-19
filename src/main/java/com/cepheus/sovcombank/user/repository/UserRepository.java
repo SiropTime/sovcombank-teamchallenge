@@ -12,4 +12,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findAllByEmail(String email);
     @Query("select u from User u where u.approved=false")
     List<User> findAllUnconfirmed(Pageable pageable);
+
+    User findByEmail();
 }
