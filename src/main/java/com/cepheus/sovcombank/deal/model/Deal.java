@@ -26,4 +26,6 @@ public class Deal {
 
     @ManyToOne
     private Account account;
+
+    private Operation operation;
 }

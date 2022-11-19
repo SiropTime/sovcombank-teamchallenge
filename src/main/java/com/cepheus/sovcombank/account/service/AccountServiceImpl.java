@@ -9,14 +9,13 @@ import com.cepheus.sovcombank.exception.BalanceException;
 import com.cepheus.sovcombank.exception.ForbiddenException;
 import com.cepheus.sovcombank.exception.NotFoundException;
 import com.cepheus.sovcombank.user.model.User;
-import com.cepheus.sovcombank.user.repository.UserRepository;
+import com.cepheus.sovcombank.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -25,13 +24,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
     @Override
     public Account createNewAccount(String currency, String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Пользователь с почтой" + email + " не найден"));
+        User user = userService.findByEmail(email);
         List<Account> accounts = accountRepository.findAllByUser(user);
         Currency cur = Currency.valueOf(currency);
         for (Account element : accounts) {
@@ -51,8 +49,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public void remove(String currency, String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Пользователь с почтой" + email + " не найден"));
+        User user = userService.findByEmail(email);
         Account account = accountRepository.findByUserAndCurrency(user, Currency.valueOf(currency))
                 .orElseThrow(() -> new NotFoundException("Счёт с валютой " + currency + " Не найден"));
         if (account.getBalance() > 0) {
@@ -64,10 +61,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void checkUserAndAccount(Long accountId, String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Пользователь с почтой" + email + " не найден"));
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new NotFoundException("Счёт с айди " + accountId + " не найден"));
+        User user = userService.findByEmail(email);
+        Account account = findById(accountId);
         if (!user.getId().equals(account.getUser().getId())) {
             throw new ForbiddenException("Счёт с айди " + accountId + " не принадлижит пользователю");
         }
@@ -75,8 +70,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDto> getAccountForUser(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Пользователь с почтой " + email + " не найден"));
+        User user = userService.findByEmail(email);
         return accountRepository.findAllByUser(user)
                 .stream()
                 .map(AccountMapper::mapAccountToAccountDto)

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,8 +37,8 @@ public class DealController {
     @GetMapping()
     public List<DealOutputDto> findHistoryByTime(@RequestParam String email,
                                                  @RequestParam Long accountId,
-                                                 @RequestParam LocalDateTime from,
-                                                 @RequestParam LocalDateTime to){
+                                                 @RequestParam LocalDate from,
+                                                 @RequestParam LocalDate to){
         return dealService.findHistoryByTime(email,accountId,from,to);
     }
 }
