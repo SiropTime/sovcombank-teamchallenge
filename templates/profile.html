@@ -1,0 +1,434 @@
+<!doctype html>
+    <html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../src/css/bootstrap.css">
+        <link rel="stylesheet" href="../src/css/main.css">
+        <title>Профиль</title>
+    </head>
+
+    <body style="background-color: #35A8C9;">
+
+<!-- ТИма короче на чистом хтмл вроде как нельзя подсосать файлик, поэтому я пок насру просто кодом      <include src="./header.html"></include>-->
+
+    <nav class="navbar  navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand text-b" href="#">Cepheus Trade</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">какая-то хуета</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">какая-то хуета</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            какая-то хуета
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">какая-то хуета</a></li>
+            <li><a class="dropdown-item" href="#">какая-то хуета</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">какая-то хуета</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">какая-то хуета</a>
+        </li>
+      </ul>
+      <div class="d-flex">
+          <button type="button" class="btn btn-outline-danger me-3">Выход</button>
+          <button type="button" class="btn btn-primary me-3">Авторизация</button>
+          <img class="avatar" src="https://www.interfax.ru/ftproot/photos/photostory/2021/06/11/week4_1100.jpg">
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">Меню</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline text-white">На главную</span>
+                        </a>
+                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a href="#" class="nav-link align-middle px-0">-->
+<!--                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline text-white">Ввод\Вывод средств</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a href="#" class="nav-link align-middle px-0">-->
+<!--                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline text-white">Настройки</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <button data-bs-toggle="modal" data-bs-target="#buy" class="btn btn-primary ms-1 d-none d-sm-inline text-white">Купить валюту</button>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <button data-bs-toggle="modal" data-bs-target="#newBill" type="submit" style="background-color: #00E797; color: white;" class="btn  ms-1 d-none d-sm-inline text-white">Открыть новый счёт</button>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="col py-3">
+
+            <div class="dropdown dropend mb-4">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Выберите валютный счёт
+              </button>
+
+              <ul class="dropdown-menu">
+                <li>
+                    <div onclick="choosebill(this.innerHTML)" class="dropdown-item">
+                    Валютный счёт #111 ($)
+                    </div>
+                </li>
+                <li>
+                    <div onclick="choosebill(this.innerHTML)" class="dropdown-item">
+                    Валютный счёт #222 (₽)
+                    </div>
+                </li>
+                  <li>
+                    <div onclick="choosebill(this.innerHTML)" class="dropdown-item ">
+                    Валютный счёт #333 (€)
+                    </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        Валютный счёт</div>
+                                    <div id="bill" class="h5 mb-0 font-weight-bold text-gray-800">Валютный счёт #111 ($)</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Доход</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">$4</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                        Траты</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">$1</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Всего операций
+                                    </div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">1</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                     <div>
+                        <canvas id="myChart"></canvas>
+                         <button onclick="setIntervalday()" class="btn">1 день</button>
+                         <button onclick="setIntervalweek()" class="btn" >7 дней</button>
+                         <button onclick="setIntervalmonth()" class="btn" >Месяц</button>
+                         <button onclick="setIntervalyear()" class="btn" >Год</button>
+                         <button onclick="setIntervalall()" class="btn" >Всё время</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="newBill" tabindex="-1" aria-labelledby="newBillModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="newBillModalLabel">Открытие счёта</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+
+            <form action="" id="new-bill-form" method="post">
+                <select id="new-bill-val" class="valuechange form-select " aria-label="Default select example">
+                     <option selected>Выберите валюту счёта</option>
+                     <option value="USD">Доллар</option>
+                     <option value="EUR">Евро </option>
+                     <option value="JPY">Японская иена </option>
+                     <option value="GBP">Фунт стерлингов  </option>
+                     <option value="AUD">Австралийский доллар </option>
+                     <option value="CAD">Канадский доллар </option>
+                     <option value="CHF">Швейцарский франк </option>
+                     <option value="CNY">Китайский юань </option>
+                     <option value="SEK">Шведская крона </option>
+                     <option value="MXN">Мексиканский песо </option>
+                     <option value="NZD">Новозеландский доллар </option>
+                     <option value="SGD">Сингапурский доллар </option>
+                     <option value="HKD">Гонконгский доллар </option>
+                     <option value="NOK">Норвежская крона </option>
+                     <option value="KRW">Южнокорейская вона </option>
+                     <option value="TRY">Турецкая лира </option>
+                     <option value="INR">Индийская рупия </option>
+                     <option value="RUB">Российский рубль </option>
+                     <option value="BRL">Бразильский реал </option>
+                     <option value="ZAR">Южноафриканский рэнд </option>
+                     <option value="DKK">Датская крона </option>
+                     <option value="PLN">Польский злотый </option>
+                     <option value="TWD">Новый тайваньский доллар</option>
+                     <option value="THB">Тайский бат </option>
+                     <option value="MYR">Малайзийский ринггит</option>
+                </select>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" form="new-bill-form" class="btn btn-primary">Создать</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="buy" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Покупка валюты</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+
+            <form action="" id="buy-form" method="post">
+
+                <div id="billbye" class="mb-4 text-b">Валютный счёт #111 ($)</div>
+
+                 <select id="select-val" class="valuechange form-select mb-4 ">
+                     <option selected>Выберите валюту</option>
+                     <option value="USD">Доллар</option>
+                     <option value="EUR">Евро </option>
+                     <option value="JPY">Японская иена </option>
+                     <option value="GBP">Фунт стерлингов  </option>
+                     <option value="AUD">Австралийский доллар </option>
+                     <option value="CAD">Канадский доллар </option>
+                     <option value="CHF">Швейцарский франк </option>
+                     <option value="CNY">Китайский юань </option>
+                     <option value="SEK">Шведская крона </option>
+                     <option value="MXN">Мексиканский песо </option>
+                     <option value="NZD">Новозеландский доллар </option>
+                     <option value="SGD">Сингапурский доллар </option>
+                     <option value="HKD">Гонконгский доллар </option>
+                     <option value="NOK">Норвежская крона </option>
+                     <option value="KRW">Южнокорейская вона </option>
+                     <option value="TRY">Турецкая лира </option>
+                     <option value="INR">Индийская рупия </option>
+                     <option value="RUB">Российский рубль </option>
+                     <option value="BRL">Бразильский реал </option>
+                     <option value="ZAR">Южноафриканский рэнд </option>
+                     <option value="DKK">Датская крона </option>
+                     <option value="PLN">Польский злотый </option>
+                     <option value="TWD">Новый тайваньский доллар </option>
+                     <option value="THB">Тайский бат </option>
+                     <option value="MYR">Малайзийский ринггит  </option>
+                </select>
+
+                <select id="operation" class="valuechange form-select mb-4 ">
+                    <option selected>Выберите операцию</option>
+                     <option value="Покупка">Покупка</option>
+                     <option value="Продажа">Продажа </option>
+                </select>
+
+                <input type="number" required class="valuechange form-control mb-4" id="inputCount1" placeholder="Количество">
+                <div class="result text-b" id="selection"></div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" form="buy-form" class="btn btn-primary">Купить!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+
+
+
+
+var selectElement = document.getElementById("select-val");
+var countVal = document.getElementById("inputCount1");
+var operation = document.getElementById("operation");
+
+selectElement.addEventListener('change', (event) => {
+  const result = document.querySelector('.result');
+  result.textContent = `=  ${operation.value} ${countVal.value} ${selectElement.value}`;
+});
+
+countVal.addEventListener('change', (event) => {
+  const result = document.querySelector('.result');
+  result.textContent = `=  ${operation.value} ${countVal.value} ${selectElement.value}`;
+});
+
+operation.addEventListener('change', (event) => {
+  const result = document.querySelector('.result');
+  result.textContent = `=  ${operation.value} ${countVal.value} ${selectElement.value}`;
+});
+
+
+
+const ctx = document.getElementById('myChart');
+
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+      datasets: [{
+        label: "Курс",
+        data: [],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+    function setIntervalday(){
+        myChart.data.labels = [];
+
+        for (var i = 0; i < 25; i++) {
+            myChart.data.datasets[0].data[i] = "666";
+            myChart.data.labels.push(i);
+            myChart.update();
+        }
+    }
+
+    function setIntervalmonth(){
+        myChart.data.labels = [];
+
+        for (var i = 0; i < 32; i++) {
+            myChart.data.datasets[0].data[i] = "777";
+            myChart.data.labels.push(i);
+            myChart.update();
+        }
+    }
+    function setIntervalweek(){
+        myChart.data.labels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+        myChart.data.datasets[0].data = []
+        for (var i = 0; i < 8; i++) {
+            myChart.data.datasets[0].data[i] = "888";
+            myChart.update();
+        }
+    }
+
+    function setIntervalyear(){
+        myChart.data.labels = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сен', 'Окт', 'Нояб', 'Дек'];
+        myChart.data.datasets[0].data = []
+        for (var i = 0; i < 13; i++) {
+            myChart.data.datasets[0].data[i] = "999";
+            myChart.update();
+        }
+    }
+
+    function setIntervalall(){
+
+    <!-- А тут без парсинга никак -->
+    }
+
+function choosebill(el){
+    var billval = document.getElementById("bill");
+    var billvalbye = document.getElementById("billbye");
+    billval.innerHTML = el;
+    billvalbye.innerHTML = el;
+    myChart.data.datasets[0].label = el;
+    myChart.update();
+}
+    </script>
+    </body>
+</html>
