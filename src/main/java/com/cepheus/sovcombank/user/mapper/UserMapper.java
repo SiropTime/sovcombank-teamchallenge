@@ -2,6 +2,7 @@ package com.cepheus.sovcombank.user.mapper;
 
 import com.cepheus.sovcombank.user.dto.UserFoAdminDto;
 import com.cepheus.sovcombank.user.dto.UserInputDto;
+import com.cepheus.sovcombank.user.dto.UserLogDto;
 import com.cepheus.sovcombank.user.model.User;
 
 public class UserMapper {
@@ -19,6 +20,13 @@ public class UserMapper {
                 .banned(user.getBanned())
                 .approved(user.getApproved())
                 .dateOfRegister(user.getDateOfRegister())
+                .build();
+    }
+
+    public static User mapUserLogDtoToUser(UserLogDto userLogDto){
+        return User.builder()
+                .email(userLogDto.getEmail())
+                .password(userLogDto.getPassword())
                 .build();
     }
 }

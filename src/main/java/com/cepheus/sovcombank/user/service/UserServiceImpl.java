@@ -1,5 +1,6 @@
 package com.cepheus.sovcombank.user.service;
 
+import com.cepheus.sovcombank.exception.LogException;
 import com.cepheus.sovcombank.exception.NotFoundException;
 import com.cepheus.sovcombank.user.model.Account;
 import com.cepheus.sovcombank.user.model.Currency;
@@ -7,13 +8,11 @@ import com.cepheus.sovcombank.user.model.User;
 import com.cepheus.sovcombank.user.repository.AccountRepository;
 import com.cepheus.sovcombank.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.security.auth.login.LoginException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -35,9 +34,19 @@ public class UserServiceImpl implements UserService{
         accountRepository.save(account);
         return userRepository.save(user);
     }
+
+    @Override
+    public User log(User user){
+        User userTest = userRepository.findByEmail(user.getEmail());
+        if(!userTest.getPassword().equals(user.getPassword())) {
+            throw new LogException("Пароль и почта не совпадают");
+        }
+        return user;
+    }
+
     public User findByEmail(String email){
         return userRepository.findAllByEmail(email).orElseThrow(() ->
-                new NotFoundException("The user with the mail: " + email + " was not found."));
+                new NotFoundException("Пользователь с почтой : " + email + " не был найден."));
     }
     public List<User> findAllUnconfirmed(int from,int size){
         return userRepository.findAllByApprovedIsFalse(PageRequest

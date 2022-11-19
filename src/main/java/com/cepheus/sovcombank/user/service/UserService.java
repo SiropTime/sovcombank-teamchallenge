@@ -10,4 +10,6 @@ public interface UserService {
     User findByEmail(String email);
     List<User> findAllUnconfirmed(int from,int size);
 
+    User log(User user);
+
 }

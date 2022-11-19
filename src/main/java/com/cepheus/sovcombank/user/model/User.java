@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

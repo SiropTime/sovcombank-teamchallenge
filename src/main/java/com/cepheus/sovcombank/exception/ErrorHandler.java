@@ -69,8 +69,16 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(UserIsNotOwnerException.class)
-    public ResponseEntity<ErrorMessage> handlerThrowableDefault(final UserIsNotOwnerException e) {
-        log.error("Возникла ошибка. Ошибка:" + e.getMessage());
+    public ResponseEntity<ErrorMessage> handlerOwnerIsNotOwner(final UserIsNotOwnerException e) {
+        log.error("Возникла ошибка доступа пользователю. Ошибка:" + e.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorMessage(e.getMessage()));
+    }
+
+    @ExceptionHandler(LogException.class)
+    public ResponseEntity<ErrorMessage> handlerLog(final LogException e) {
+        log.error("Возникла ошибка регистрации. Ошибка:" + e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorMessage(e.getMessage()));
