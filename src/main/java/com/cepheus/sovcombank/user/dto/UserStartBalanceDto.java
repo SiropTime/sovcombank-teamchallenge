@@ -1,4 +1,4 @@
-package com.cepheus.sovcombank.deal.dto;
+package com.cepheus.sovcombank.user.dto;
 
 import lombok.*;
 
@@ -8,5 +8,5 @@ import lombok.*;
 @Getter
 @Setter
 public class UserStartBalanceDto {
-    private Long sum;
+    private Float sum;
 }

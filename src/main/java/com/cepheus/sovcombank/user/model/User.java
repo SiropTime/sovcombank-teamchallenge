@@ -42,6 +42,9 @@ public class User  {
     @OneToMany
     private List<Account> accounts;
 
+    @Column(name = "start_balance")
+    private Float balance;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

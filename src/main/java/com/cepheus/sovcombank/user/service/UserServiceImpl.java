@@ -4,6 +4,8 @@ import com.cepheus.sovcombank.exception.LogException;
 import com.cepheus.sovcombank.exception.NotFoundException;
 import com.cepheus.sovcombank.account.model.Account;
 import com.cepheus.sovcombank.account.model.Currency;
+import com.cepheus.sovcombank.user.dto.UserStartBalanceDto;
+import com.cepheus.sovcombank.user.mapper.UserMapper;
 import com.cepheus.sovcombank.user.model.User;
 import com.cepheus.sovcombank.account.repository.AccountRepository;
 import com.cepheus.sovcombank.user.repository.UserRepository;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService{
         user.setApproved(false);
         user.setBanned(false);
         user.setDateOfRegister(LocalDateTime.now());
+        user.setBalance(0F);
         Account account = generateRuAccount(user);
         user.setAccounts(Arrays.asList(account));
         log.info("Пользователь {} создан с открытым счётом в рублях ", user.getEmail());
@@ -46,6 +49,12 @@ public class UserServiceImpl implements UserService{
         }
         log.info("Пользователь {}, успешно зашёл", user.getEmail());
         return user;
+    }
+
+    @Override
+    public UserStartBalanceDto getBalance(String email) {
+        User user = findByEmail(email);
+        return UserMapper.mapUserToUserStart(user);
     }
 
     public User findByEmail(String email){

@@ -2,7 +2,6 @@ package com.cepheus.sovcombank.deal.controller;
 
 import com.cepheus.sovcombank.deal.dto.BalanceChangerDto;
 import com.cepheus.sovcombank.deal.dto.DealOutputDto;
-import com.cepheus.sovcombank.deal.dto.UserStartBalanceDto;
 import com.cepheus.sovcombank.deal.service.DealService;
 import com.cepheus.sovcombank.deal.dto.ForDealDto;
 import lombok.RequiredArgsConstructor;

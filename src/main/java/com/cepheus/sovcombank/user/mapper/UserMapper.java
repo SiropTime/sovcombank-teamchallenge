@@ -3,6 +3,7 @@ package com.cepheus.sovcombank.user.mapper;
 import com.cepheus.sovcombank.user.dto.UserFoAdminDto;
 import com.cepheus.sovcombank.user.dto.UserInputDto;
 import com.cepheus.sovcombank.user.dto.UserLogDto;
+import com.cepheus.sovcombank.user.dto.UserStartBalanceDto;
 import com.cepheus.sovcombank.user.model.User;
 
 public class UserMapper {
@@ -27,6 +28,12 @@ public class UserMapper {
         return User.builder()
                 .email(userLogDto.getEmail())
                 .password(userLogDto.getPassword())
+                .build();
+    }
+
+    public static UserStartBalanceDto mapUserToUserStart(User user){
+        return UserStartBalanceDto.builder()
+                .sum(user.getBalance())
                 .build();
     }
 }

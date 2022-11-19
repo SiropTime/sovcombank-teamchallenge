@@ -1,5 +1,6 @@
 package com.cepheus.sovcombank.user.service;
 
+import com.cepheus.sovcombank.user.dto.UserStartBalanceDto;
 import com.cepheus.sovcombank.user.model.User;
 import org.springframework.data.domain.Pageable;
 
@@ -12,4 +13,5 @@ public interface UserService {
 
     User log(User user);
 
+    UserStartBalanceDto getBalance(String email);
 }

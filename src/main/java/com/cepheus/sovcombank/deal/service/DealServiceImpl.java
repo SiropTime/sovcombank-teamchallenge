@@ -12,6 +12,7 @@ import com.cepheus.sovcombank.exception.NotFoundException;
 import com.cepheus.sovcombank.exception.UserIsNotOwnerException;
 import com.cepheus.sovcombank.account.model.Currency;
 import com.cepheus.sovcombank.user.model.User;
+import com.cepheus.sovcombank.user.repository.UserRepository;
 import com.cepheus.sovcombank.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.Math.abs;
+
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,7 @@ public class DealServiceImpl implements DealService {
     private final AccountRepository accountRepository;
     private final AccountService accountService;
     private final DealRepository dealRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     @Override
@@ -52,11 +56,11 @@ public class DealServiceImpl implements DealService {
             account.setBalance(account.getBalance() - (forDealDto.getSum() * forDealDto.getCurrencyRatio()));
             operation = Operation.SaleCurrency;
         } else { // Операция продажи с ру счёта
-            if (accountRu.getBalance() - forDealDto.getSum() < 0) {
+            if (accountRu.getBalance() - abs(forDealDto.getSum()) < 0) {
                 throw new BalanceException("You can't take off more than you have");
             }
-            accountRu.setBalance(accountRu.getBalance() - forDealDto.getSum());
-            account.setBalance(account.getBalance() + (forDealDto.getSum() * forDealDto.getCurrencyRatio()));
+            accountRu.setBalance(accountRu.getBalance() - abs(forDealDto.getSum()));
+            account.setBalance(account.getBalance() + abs((forDealDto.getSum() * forDealDto.getCurrencyRatio())));
             operation = Operation.PurchaseCurrency;
         }
         Deal deal = Deal.builder()
@@ -79,6 +83,9 @@ public class DealServiceImpl implements DealService {
         User user = userService.findByEmail(email);
         Account account = accountService.findByUserAndCurrency(user, Currency.RUB);
         Operation operation = balanceChangerDto.getSum() < 0? Operation.WithdrawalBalance: Operation.ReplenishmentBalance;
+        if(balanceChangerDto.getSum() < 0 && account.getBalance() - balanceChangerDto.getSum() < 0){
+            throw new BalanceException("На счёте меньше, чем в счёте");
+        }
         account.setBalance(account.getBalance() + balanceChangerDto.getSum());
         Deal deal = Deal.builder()
                 .summary(balanceChangerDto.getSum())
@@ -86,6 +93,7 @@ public class DealServiceImpl implements DealService {
                 .operation(operation)
                 .build();
         accountRepository.save(account);
+        userRepository.save(user);
         log.info("На баланс {} успешно пришло {}", user.getEmail(), balanceChangerDto.getSum());
         return dealRepository.save(deal);
     }

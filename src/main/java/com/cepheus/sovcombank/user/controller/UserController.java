@@ -2,6 +2,7 @@ package com.cepheus.sovcombank.user.controller;
 
 import com.cepheus.sovcombank.user.dto.UserInputDto;
 import com.cepheus.sovcombank.user.dto.UserLogDto;
+import com.cepheus.sovcombank.user.dto.UserStartBalanceDto;
 import com.cepheus.sovcombank.user.mapper.UserMapper;
 import com.cepheus.sovcombank.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,4 +31,9 @@ public class UserController {
         return HttpStatus.OK;
     }
 
+    @GetMapping("/user")
+    public UserStartBalanceDto getBalance(@RequestParam String email){
+        log.info("Получение данных о начальном капитале");
+        return userServiceImpl.getBalance(email);
+    }
 }
