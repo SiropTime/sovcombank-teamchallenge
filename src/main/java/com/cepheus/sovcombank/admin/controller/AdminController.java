@@ -1,9 +1,6 @@
 package com.cepheus.sovcombank.admin.controller;
 
-import com.cepheus.sovcombank.admin.dto.AdminDto;
-import com.cepheus.sovcombank.admin.dto.AdminDtoMapper;
-import com.cepheus.sovcombank.admin.dto.AdminRequest;
-import com.cepheus.sovcombank.admin.dto.BannedDto;
+import com.cepheus.sovcombank.admin.dto.*;
 import com.cepheus.sovcombank.admin.service.AdminService;
 import com.cepheus.sovcombank.exception.ValidationException;
 import com.cepheus.sovcombank.user.dto.UserFoAdminDto;
@@ -37,16 +34,11 @@ public class AdminController {
         return HttpStatus.OK;
     }
 
-    @GetMapping(path = "/users/")
-    public String getByEmail(@RequestBody String email) {
-        log.info("Получение пользователя {}", email);
-        return adminService.getByEmail(email);
-    }
 
     @PutMapping(path = "/confirmation")
-    public HttpStatus confirmationStatus(@RequestBody String userEmail) {
+    public HttpStatus confirmationStatus(@RequestBody EmailDto userEmail) {
         log.info("Потверждение пользователя {}", userEmail);
-        adminService.confirmationUser(userEmail);
+        adminService.confirmationUser(userEmail.getEmail());
         return HttpStatus.OK;
     }
 
