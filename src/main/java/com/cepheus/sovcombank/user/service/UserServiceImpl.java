@@ -8,6 +8,7 @@ import com.cepheus.sovcombank.user.model.User;
 import com.cepheus.sovcombank.account.repository.AccountRepository;
 import com.cepheus.sovcombank.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
@@ -30,16 +32,19 @@ public class UserServiceImpl implements UserService{
         user.setDateOfRegister(LocalDateTime.now());
         Account account = generateRuAccount(user);
         user.setAccounts(Arrays.asList(account));
+        log.info("Пользователь {} создан с открытым счётом в рублях ", user.getEmail());
         accountRepository.save(account);
         return userRepository.save(user);
     }
 
     @Override
     public User log(User user){
-        User userTest = userRepository.findByEmail(user.getEmail());
+        User userTest = userRepository.findByEmail(user.getEmail())
+                .orElseThrow(() -> new NotFoundException("Пользователь с почтой" + user.getEmail() + " не найден"));
         if(!userTest.getPassword().equals(user.getPassword())) {
             throw new LogException("Пароль и почта не совпадают");
         }
+        log.info("Пользователь {}, успешно зашёл", user.getEmail());
         return user;
     }
 

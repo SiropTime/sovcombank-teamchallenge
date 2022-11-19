@@ -13,5 +13,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.approved=false order by u.dateOfRegister")
     List<User> findAllByApprovedIsFalse(Pageable pageable);
 
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 }

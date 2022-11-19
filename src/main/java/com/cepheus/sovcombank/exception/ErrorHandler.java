@@ -1,6 +1,7 @@
 package com.cepheus.sovcombank.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -52,13 +53,16 @@ public class ErrorHandler {
                 .body(new ErrorMessage(e.getMessage()));
     }
 
+
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ErrorMessage> handlerThrowableDefault(final Throwable e) {
         log.error("Возникла ошибка. Ошибка:" + e.getMessage());
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.CONFLICT)
                 .body(new ErrorMessage(e.getMessage()));
     }
+
+
 
     @ExceptionHandler(BalanceException.class)
     public ResponseEntity<ErrorMessage> handlerBalanceOfUser(final BalanceException e) {

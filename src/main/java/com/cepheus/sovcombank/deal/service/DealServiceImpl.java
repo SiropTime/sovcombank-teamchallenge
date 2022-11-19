@@ -31,7 +31,8 @@ public class DealServiceImpl implements DealService{
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not find"));
         Account account = accountRepository.findById(forDealDto.getAccountId())
                 .orElseThrow(() -> new NotFoundException("Account for buy not find"));
-        Account accountRu = accountRepository.findByUserAndCurrency(user, Currency.RUB);
+        Account accountRu = accountRepository.findByUserAndCurrency(user, Currency.RUB)
+                .orElseThrow(() -> new NotFoundException("Счёт с валютой " + Currency.RUB + " Не найден"));
         if(!userId.equals(account.getId())){
             throw new UserIsNotOwnerException("User is not owner");
         }
@@ -62,7 +63,8 @@ public class DealServiceImpl implements DealService{
     @Override
     public Deal changeBalance(BalanceChangerDto balanceChangerDto, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден"));
-        Account account = accountRepository.findByUserAndCurrency(user,Currency.RUB);
+        Account account = accountRepository.findByUserAndCurrency(user,Currency.RUB)
+                .orElseThrow(() -> new NotFoundException("Счёт с валютой " + Currency.RUB + " Не найден"));
         account.setBalance(account.getBalance() + balanceChangerDto.getSum());
         Deal deal = Deal.builder()
                 .summary(balanceChangerDto.getSum())
