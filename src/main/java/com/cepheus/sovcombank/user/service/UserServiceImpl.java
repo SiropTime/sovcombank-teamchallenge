@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService{
         user.setBanned(false);
         user.setDateOfRegister(LocalDateTime.now());
         Account account = generateRuAccount(user);
+        user.setAccounts(Arrays.asList(account));
         accountRepository.save(account);
         return userRepository.save(user);
     }

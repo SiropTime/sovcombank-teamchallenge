@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Entity
@@ -35,4 +36,7 @@ public class User {
 
     @Column(name = "date_of_register")
     private LocalDateTime dateOfRegister;
+
+    @OneToMany
+    private List<Account> accounts;
 }

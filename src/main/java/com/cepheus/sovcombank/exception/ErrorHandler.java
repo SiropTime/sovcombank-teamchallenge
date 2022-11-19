@@ -59,4 +59,20 @@ public class ErrorHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorMessage(e.getMessage()));
     }
+
+    @ExceptionHandler(BalanceException.class)
+    public ResponseEntity<ErrorMessage> handlerBalanceOfUser(final BalanceException e) {
+        log.error("Возникла ошибка баланса пользователя: " + e.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorMessage(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserIsNotOwnerException.class)
+    public ResponseEntity<ErrorMessage> handlerThrowableDefault(final UserIsNotOwnerException e) {
+        log.error("Возникла ошибка. Ошибка:" + e.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorMessage(e.getMessage()));
+    }
 }
