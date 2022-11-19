@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findAllByEmail(String email);
-    @Query("select u from User u where u.approved=false order by u.dateOfRegister")
+    @Query("select u from User u where u.approved=false and u.banned=false order by u.dateOfRegister")
     List<User> findAllByApprovedIsFalse(Pageable pageable);
 
     Optional<User> findByEmail(String email);
