@@ -1,5 +1,6 @@
 package com.cepheus.sovcombank.account.controller;
 
+import com.cepheus.sovcombank.account.dto.AccountActionDto;
 import com.cepheus.sovcombank.account.dto.AccountDto;
 import com.cepheus.sovcombank.account.dto.UserCheckAccountDto;
 import com.cepheus.sovcombank.account.service.AccountService;
@@ -17,19 +18,17 @@ import java.util.List;
 public class AccountController {
     private final AccountService accountService;
 
-    @PostMapping("/create{currency}")
-    public HttpStatus create(@RequestBody String email,
-                             @PathVariable String currency) {
-        log.info("Создание валютного счёта в {} для пользователя {}", currency ,email);
-        accountService.createNewAccount(currency, email);
+    @PostMapping("/create")
+    public HttpStatus create(@RequestBody AccountActionDto actionDto) {
+        log.info("Создание валютного счёта в {} для пользователя {}", actionDto.getCurrency() ,actionDto.getEmail());
+        accountService.createNewAccount(actionDto.getCurrency(), actionDto.getEmail());
         return HttpStatus.OK;
     }
 
-    @DeleteMapping("/remove{currency}")
-    public HttpStatus remove(@RequestBody String email,
-                             @PathVariable String currency) {
-        log.info("Удаление счёта в {} у пользователя {}", currency, email);
-        accountService.remove(currency, email);
+    @DeleteMapping("/remove")
+    public HttpStatus remove(@RequestBody AccountActionDto actionDto) {
+        log.info("Удаление счёта в {} у пользователя {}", actionDto.getCurrency(), actionDto.getEmail());
+        accountService.remove(actionDto.getCurrency(), actionDto.getEmail());
         return HttpStatus.OK;
     }
 
