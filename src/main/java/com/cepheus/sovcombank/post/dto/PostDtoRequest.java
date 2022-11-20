@@ -6,10 +6,12 @@ import java.time.LocalDateTime;
 @Builder
 public class PostDtoRequest {
     private String description;
+    private String title;
     private LocalDateTime timeStamp;
     private User author;
     @Builder
     public static class User{
+        private Long id;
         private String name;
         private String email;
     }

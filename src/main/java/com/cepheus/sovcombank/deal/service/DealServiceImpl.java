@@ -112,9 +112,9 @@ public class DealServiceImpl implements DealService {
 
         if (deals.isEmpty()) {
             throw new NotFoundException("No operations were performed during the specified time");
-        } else {
-            return deals.stream().map(DealMapper::mapDealToOut)
-                    .collect(Collectors.toList());
         }
+        return deals.stream().map(DealMapper::mapDealToOut)
+                .collect(Collectors.toList());
+
     }
 }

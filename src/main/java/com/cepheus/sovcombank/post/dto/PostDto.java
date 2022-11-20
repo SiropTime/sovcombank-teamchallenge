@@ -8,6 +8,6 @@ import java.time.LocalDateTime;
 @Getter
 public class PostDto {
     private String description;
-
+    private String title;
     private LocalDateTime timeStamp;
 }
