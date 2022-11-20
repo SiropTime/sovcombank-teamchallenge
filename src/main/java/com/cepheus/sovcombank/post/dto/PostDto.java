@@ -10,4 +10,5 @@ public class PostDto {
     private String description;
     private String title;
     private LocalDateTime timeStamp;
+    private String userEmail;
 }

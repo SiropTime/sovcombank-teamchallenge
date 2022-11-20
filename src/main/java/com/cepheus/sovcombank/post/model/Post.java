@@ -21,9 +21,10 @@ public class Post {
 
     @Column(name = "description")
     private String description;
-    
+
     @Column(name = "title")
     private String title;
+
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 

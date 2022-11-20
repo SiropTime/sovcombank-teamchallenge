@@ -21,9 +21,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public HttpStatus add(@RequestBody PostDto postDto,
-                          @RequestBody String userEmail) {
-        postService.add(PostMapper.mapDtoToPost(postDto), userEmail);
+    public HttpStatus add(@RequestBody PostDto postDto) {
+        postService.add(PostMapper.mapDtoToPost(postDto), postDto.getUserEmail());
         return HttpStatus.OK;
     }
 
@@ -34,6 +33,7 @@ public class PostController {
             throw new ValidationException("Incorrect request parameters were passed: start from the page " + from +
                     " ,number of elements on the page " + size);
         }
+
         return postService.findAll(from, size).stream().map(PostMapper::mapPostToDto).collect(Collectors.toList());
     }
 

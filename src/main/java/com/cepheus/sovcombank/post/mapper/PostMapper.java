@@ -21,7 +21,7 @@ public class PostMapper {
                         .builder()
                         .id(post.getAuthor().getId())
                         .name(post.getAuthor().getName())
-                        .name(post.getAuthor().getEmail())
+                        .email(post.getAuthor().getEmail())
                         .build())
                 .build();
     }
