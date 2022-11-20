@@ -10,6 +10,7 @@ public class PostMapper {
                 .description(postDto.getDescription())
                 .timeStamp(postDto.getTimeStamp())
                 .title(postDto.getTitle())
+                .image(postDto.getImage())
                 .build();
     }
     public static PostDtoRequest mapPostToDto(Post post){
@@ -17,6 +18,7 @@ public class PostMapper {
                 .description(post.getDescription())
                 .timeStamp(post.getTimeStamp())
                 .title(post.getTitle())
+                .image(post.getImage())
                 .author(PostDtoRequest.User
                         .builder()
                         .id(post.getAuthor().getId())

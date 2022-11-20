@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class PostDtoRequest {
     private String description;
     private String title;
+    private String image;
     private LocalDateTime timeStamp;
     private User author;
     @Builder

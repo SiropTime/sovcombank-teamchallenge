@@ -28,6 +28,8 @@ public class Post {
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
+    @Column(name = "image")
+    private String image;
     @ManyToOne
     private User author;
 

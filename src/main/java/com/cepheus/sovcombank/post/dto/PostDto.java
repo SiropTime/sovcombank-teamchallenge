@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class PostDto {
     private String description;
     private String title;
+    private String image;
     private LocalDateTime timeStamp;
     private String userEmail;
 }
