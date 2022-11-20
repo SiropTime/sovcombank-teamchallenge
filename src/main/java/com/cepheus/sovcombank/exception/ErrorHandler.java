@@ -1,7 +1,6 @@
 package com.cepheus.sovcombank.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,6 +33,13 @@ public class ErrorHandler {
         log.error("Возникла ошибка конфликтных данных. Ошибка:" + e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(new ErrorMessage(e.getMessage()));
+    }
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorMessage> handlerUnauthorizedUser(final UnauthorizedException e) {
+        log.error("Возникла ошибка авторизации пользователя. Ошибка:" + e.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorMessage(e.getMessage()));
     }
 

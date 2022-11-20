@@ -9,6 +9,7 @@ import com.cepheus.sovcombank.deal.model.Operation;
 import com.cepheus.sovcombank.deal.repository.DealRepository;
 import com.cepheus.sovcombank.exception.BalanceException;
 import com.cepheus.sovcombank.exception.NotFoundException;
+import com.cepheus.sovcombank.exception.UnauthorizedException;
 import com.cepheus.sovcombank.exception.UserIsNotOwnerException;
 import com.cepheus.sovcombank.account.model.Currency;
 import com.cepheus.sovcombank.user.model.User;
@@ -19,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +42,9 @@ public class DealServiceImpl implements DealService {
     @Override
     public Deal make(ForDealDto forDealDto, String email) {
         User user = userService.findByEmail(email);
+        if (!user.getApproved() || user.getBanned()) {
+            throw new UnauthorizedException("The user is not affected or banned");
+        }
         Account account = accountService.findById(forDealDto.getAccountId());
         Account accountRu = accountService.findByUserAndCurrency(user, Currency.RUB);
         if (!user.getId().equals(account.getUser().getId())) {
@@ -81,9 +84,12 @@ public class DealServiceImpl implements DealService {
     @Override
     public Deal changeBalance(BalanceChangerDto balanceChangerDto, String email) {
         User user = userService.findByEmail(email);
+        if (!user.getApproved() || user.getBanned()) {
+            throw new UnauthorizedException("The user is not affected or banned");
+        }
         Account account = accountService.findByUserAndCurrency(user, Currency.RUB);
-        Operation operation = balanceChangerDto.getSum() < 0? Operation.WithdrawalBalance: Operation.ReplenishmentBalance;
-        if(balanceChangerDto.getSum() < 0 && account.getBalance() - balanceChangerDto.getSum() < 0){
+        Operation operation = balanceChangerDto.getSum() < 0 ? Operation.WithdrawalBalance : Operation.ReplenishmentBalance;
+        if (balanceChangerDto.getSum() < 0 && account.getBalance() - balanceChangerDto.getSum() < 0) {
             throw new BalanceException("На счёте меньше, чем в счёте");
         }
         account.setBalance(account.getBalance() + balanceChangerDto.getSum());
@@ -99,18 +105,14 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public List<DealOutputDto> findHistoryByTime(String email, Long accountId, LocalDate from, LocalDate to) {
+    public List<DealOutputDto> findHistoryByTime(String email, Long accountId) {
         accountService.checkUserAndAccount(accountId, email);
         Account account = accountService.findById(accountId);
-        List<Deal> deals;
-        if (to != null) {
-            deals = dealRepository.findAllByAccount(account, from, to);
-        } else {
-            deals = dealRepository.findAllByAccount(account, from);
-        }
-        if(deals.isEmpty()){
+        List<Deal> deals = dealRepository.findAllByAccount(account);
+
+        if (deals.isEmpty()) {
             throw new NotFoundException("No operations were performed during the specified time");
-        }else {
+        } else {
             return deals.stream().map(DealMapper::mapDealToOut)
                     .collect(Collectors.toList());
         }

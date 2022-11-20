@@ -8,6 +8,7 @@ import com.cepheus.sovcombank.account.repository.AccountRepository;
 import com.cepheus.sovcombank.exception.BalanceException;
 import com.cepheus.sovcombank.exception.ForbiddenException;
 import com.cepheus.sovcombank.exception.NotFoundException;
+import com.cepheus.sovcombank.exception.UnauthorizedException;
 import com.cepheus.sovcombank.user.model.User;
 import com.cepheus.sovcombank.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,9 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account createNewAccount(String currency, String email) {
         User user = userService.findByEmail(email);
+        if (!user.getApproved() || user.getBanned()){
+            throw new UnauthorizedException("The user is not affected or banned");
+        }
         List<Account> accounts = accountRepository.findAllByUser(user);
         Currency cur = Currency.valueOf(currency);
         for (Account element : accounts) {
@@ -50,6 +54,9 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void remove(String currency, String email) {
         User user = userService.findByEmail(email);
+        if (!user.getApproved() || user.getBanned()){
+            throw new UnauthorizedException("The user is not affected or banned");
+        }
         Account account = accountRepository.findByUserAndCurrency(user, Currency.valueOf(currency))
                 .orElseThrow(() -> new NotFoundException("Счёт с валютой " + currency + " Не найден"));
         if (account.getBalance() > 0) {
